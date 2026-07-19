@@ -190,37 +190,37 @@ timedelta(days=30)
 
 ### 1. S3 Bucket Contents
 
-![S3 Bucket](screenshots/01-s3-bucket.png)
+![S3 Bucket](screenshots/1.png)
 
 ---
 
 ### 2. Lambda Function Code
 
-![Lambda Code](screenshots/02-lambda-code.png)
+![Lambda Code](screenshots/2.png)
 
 ---
 
 ### 3. IAM Role and Permissions
 
-![IAM Policy](screenshots/03-iam-policy.png)
+![IAM Policy](screenshots/3.png)
 
 ---
 
 ### 4. Lambda Test Event
 
-![Lambda Test](screenshots/04-lambda-test.png)
+![Lambda Test](screenshots/4.png)
 
 ---
 
 ### 5. Successful Lambda Execution
 
-![Lambda Success](screenshots/05-lambda-success.png)
+![Lambda Success](screenshots/5.png)
 
 ---
 
 ### 6. CloudWatch Logs
 
-![CloudWatch Logs](screenshots/06-cloudwatch-logs.png)
+![CloudWatch Logs](screenshots/6.png)
 
 ---
 
