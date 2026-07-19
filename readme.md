@@ -190,61 +190,37 @@ timedelta(days=30)
 
 ### 1. S3 Bucket Contents
 
-Screenshot of the files uploaded to the S3 bucket.
-
-```text
-screenshots/01-s3-bucket.png
-```
+![S3 Bucket](screenshots/01-s3-bucket.png)
 
 ---
 
 ### 2. Lambda Function Code
 
-Screenshot of the Lambda function code in the AWS console.
-
-```text
-screenshots/02-lambda-code.png
-```
+![Lambda Code](screenshots/02-lambda-code.png)
 
 ---
 
 ### 3. IAM Role and Permissions
 
-Screenshot showing the IAM role and inline policy attached to the Lambda function.
-
-```text
-screenshots/03-iam-policy.png
-```
+![IAM Policy](screenshots/03-iam-policy.png)
 
 ---
 
 ### 4. Lambda Test Event
 
-Screenshot showing the test event configuration and execution.
-
-```text
-screenshots/04-lambda-test.png
-```
+![Lambda Test](screenshots/04-lambda-test.png)
 
 ---
 
 ### 5. Successful Lambda Execution
 
-Screenshot showing the successful Lambda execution result.
-
-```text
-screenshots/05-lambda-success.png
-```
+![Lambda Success](screenshots/05-lambda-success.png)
 
 ---
 
 ### 6. CloudWatch Logs
 
-Screenshot showing deleted objects in CloudWatch Logs.
-
-```text
-screenshots/06-cloudwatch-logs.png
-```
+![CloudWatch Logs](screenshots/06-cloudwatch-logs.png)
 
 ---
 
