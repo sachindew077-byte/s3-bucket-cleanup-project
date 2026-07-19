@@ -4,7 +4,7 @@
 
 This project automates the cleanup of stale objects stored in an Amazon S3 bucket using AWS Lambda and Python.
 
-The Lambda function scans all objects in a specified S3 bucket, identifies files older than 30 days, and permanently deletes them. The solution uses the AWS SDK for Python (Boto3) and follows AWS best practices such as paginated object listing and timezone-aware date comparisons.
+The Lambda function scans all objects in the S3 bucket `my-first-herobucket`, identifies files older than 30 days, and permanently deletes them. The solution uses the AWS SDK for Python (Boto3) and follows AWS best practices such as paginated object listing and timezone-aware date comparisons.
 
 ---
 
@@ -19,7 +19,8 @@ Automatically delete objects older than 30 days from an S3 bucket.
 ```text
 +-------------+
 |   Amazon S3 |
-|   Bucket    |
+| my-first-   |
+| herobucket  |
 +------+------+
        |
        |
@@ -42,7 +43,7 @@ Automatically delete objects older than 30 days from an S3 bucket.
 
 - Amazon S3
 - AWS Lambda
-- IAM
+- AWS IAM
 - Amazon CloudWatch
 - Boto3 (AWS SDK for Python)
 
@@ -50,7 +51,7 @@ Automatically delete objects older than 30 days from an S3 bucket.
 
 ## Project Workflow
 
-1. Create an S3 bucket.
+1. Create an S3 bucket named `my-first-herobucket`.
 2. Upload files into the bucket.
 3. Create an IAM role with the required permissions.
 4. Deploy the Lambda function.
@@ -63,41 +64,44 @@ Automatically delete objects older than 30 days from an S3 bucket.
 
 ---
 
+## Bucket Information
+
+| Property | Value |
+|----------|----------|
+| Bucket Name | `my-first-herobucket` |
+| Retention Period | 30 Days |
+| Runtime | Python 3.12 |
+| Trigger Type | Manual Invocation |
+
+---
+
 ## IAM Policy
 
 Attach the following inline policy to the Lambda execution role.
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "ListBucket",
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": "arn:aws:s3:::YOUR_BUCKET_NAME"
-        },
-        {
-            "Sid": "DeleteObjects",
-            "Effect": "Allow",
-            "Action": [
-                "s3:DeleteObject"
-            ],
-            "Resource": "arn:aws:s3:::YOUR_BUCKET_NAME/*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::my-first-herobucket"
+    },
+    {
+      "Sid": "DeleteObjects",
+      "Effect": "Allow",
+      "Action": [
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::my-first-herobucket/*"
+    }
+  ]
 }
 ```
-
-Replace:
-
-```text
-YOUR_BUCKET_NAME
-```
-
-with your bucket name.
 
 ---
 
@@ -109,7 +113,7 @@ from datetime import datetime, timezone, timedelta
 
 s3 = boto3.client("s3")
 
-BUCKET_NAME = "your-bucket-name"
+BUCKET_NAME = "my-first-herobucket"
 DAYS_TO_KEEP = 30
 
 
@@ -170,15 +174,76 @@ timedelta(minutes=5)
 
 3. Wait for the threshold to pass.
 4. Manually invoke the Lambda function.
-5. Verify:
+5. Verify that:
    - Old files are deleted.
    - Recent files remain.
    - CloudWatch logs display deleted file names.
-
 6. Restore the production value:
 
 ```python
 timedelta(days=30)
+```
+
+---
+
+## Screenshots
+
+### 1. S3 Bucket Contents
+
+Screenshot of the files uploaded to the S3 bucket.
+
+```text
+screenshots/01-s3-bucket.png
+```
+
+---
+
+### 2. Lambda Function Code
+
+Screenshot of the Lambda function code in the AWS console.
+
+```text
+screenshots/02-lambda-code.png
+```
+
+---
+
+### 3. IAM Role and Permissions
+
+Screenshot showing the IAM role and inline policy attached to the Lambda function.
+
+```text
+screenshots/03-iam-policy.png
+```
+
+---
+
+### 4. Lambda Test Event
+
+Screenshot showing the test event configuration and execution.
+
+```text
+screenshots/04-lambda-test.png
+```
+
+---
+
+### 5. Successful Lambda Execution
+
+Screenshot showing the successful Lambda execution result.
+
+```text
+screenshots/05-lambda-success.png
+```
+
+---
+
+### 6. CloudWatch Logs
+
+Screenshot showing deleted objects in CloudWatch Logs.
+
+```text
+screenshots/06-cloudwatch-logs.png
 ```
 
 ---
@@ -191,7 +256,7 @@ Navigate to:
 AWS Console → CloudWatch → Log Groups → /aws/lambda/<function-name>
 ```
 
-Check the logs for:
+Example logs:
 
 ```text
 Deleted: test-file-1.txt
@@ -203,19 +268,19 @@ Deleted: old-report.pdf
 
 ## Production Considerations
 
-Amazon S3 Lifecycle Rules can automatically delete old objects without any custom code and are generally the preferred solution.
+Amazon S3 Lifecycle Rules can automatically delete old objects without requiring any custom code and are generally the preferred solution.
 
 However, AWS Lambda becomes useful when:
 
-- Object deletion depends on naming conventions or metadata.
-- Additional actions are required before deletion (notifications, backups, database updates).
+- Object deletion depends on file names, prefixes, or metadata.
+- Additional actions are required before deletion, such as sending notifications or updating databases.
 - Cleanup logic involves multiple AWS services or custom business rules.
 
 ---
 
 ## Best Practices Implemented
 
-✅ Used paginator to handle buckets with large numbers of objects.
+✅ Used paginator to handle buckets with a large number of objects.
 
 ✅ Used timezone-aware UTC timestamps.
 
@@ -223,29 +288,28 @@ However, AWS Lambda becomes useful when:
 
 ✅ Logged deleted files to CloudWatch.
 
-✅ Parameterized retention duration.
+✅ Parameterized the retention duration.
 
 ---
 
 ## Repository Structure
 
 ```text
-project-folder/
+automated-s3-cleanup/
 │
 ├── lambda_function.py
 ├── policy.json
 ├── README.md
+│
 └── screenshots/
+    ├── 01-s3-bucket.png
+    ├── 02-lambda-code.png
+    ├── 03-iam-policy.png
+    ├── 04-lambda-test.png
+    ├── 05-lambda-success.png
+    └── 06-cloudwatch-logs.png
 ```
 
 ---
 
-## Future Improvements
-
-- Trigger cleanup automatically using EventBridge schedules.
-- Store bucket name and retention period in environment variables.
-- Send cleanup reports using Amazon SNS.
-- Process multiple buckets dynamically.
-
----
 
